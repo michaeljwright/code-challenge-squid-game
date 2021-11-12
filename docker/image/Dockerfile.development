@@ -1,0 +1,19 @@
+FROM node:16
+
+RUN ["mkdir", "/install"]
+
+COPY package*.json ./install/
+
+WORKDIR /install
+
+# https://docs.npmjs.com/cli/v7/commands/npm-ci
+RUN npm ci
+
+ENV NODE_PATH=/install/node_modules
+
+WORKDIR /app
+
+COPY . /app/
+
+# psql
+RUN apt-get update && apt-get install -y postgresql-client

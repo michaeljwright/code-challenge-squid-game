@@ -1,0 +1,42 @@
+version: "3.1"
+
+services:
+  postgres:
+    image: postgres
+    healthcheck:
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    restart: always
+    ports:
+      - ${PGPORT}:${PGPORT}
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: ${PGPASS}
+      POSTGRES_USER: ${PGUSER}
+      POSTGRES_DB: ${PGDATABASE}
+      PGPORT: ${PGPORT}
+
+  codechallenge:
+    restart: always
+    build:
+      context: .
+      dockerfile: docker/image/Dockerfile.development
+    volumes:
+      - ./:/app
+    ports:
+      - ${PORT}:${PORT}
+    links:
+      - postgres
+    command: npm run dev
+
+  adminer:
+    image: adminer
+    ports:
+      - "8886:8080"
+    links:
+      - postgres
+
+volumes:
+  postgres:
