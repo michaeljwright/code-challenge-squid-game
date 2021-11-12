@@ -7,7 +7,7 @@ COPY package*.json ./install/
 WORKDIR /install
 
 # https://docs.npmjs.com/cli/v7/commands/npm-ci
-RUN npm ci
+RUN npm ci --include=dev
 
 ENV NODE_PATH=/install/node_modules
 
