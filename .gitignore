@@ -32,8 +32,6 @@ Desktop.ini
 .directory
 *~
 
-package-lock.json
-
 # Test coverage files
 coverage
 
